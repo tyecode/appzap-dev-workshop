@@ -6,8 +6,8 @@ import Image from "next/image";
 import { IoSearch } from "react-icons/io5";
 import { SlGlobe } from "react-icons/sl";
 
-import { SearchPage } from "./SearchPage";
-import { LanguageSelectModal } from "./modals/LanguageSelectModal";
+import { SearchPage } from "@/components/pages/SearchPage";
+import { LanguageSelectModal } from "@/components/modals/LanguageSelectModal";
 
 export const TopBar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);

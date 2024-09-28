@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_Lao } from "next/font/google";
 
-import { TopBar } from "@/components/TopBar";
-import { BottomBar } from "@/components/BottomBar";
+import { TopBar } from "@/components/layouts/TopBar";
+import { BottomBar } from "@/components/layouts/BottomBar";
 
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/constants/site-data";
 
