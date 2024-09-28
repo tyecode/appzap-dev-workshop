@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { FiEdit } from "react-icons/fi";
 
-import { HistoryCard } from "@/components/HistoryCard";
+import { HistoryCard } from "@/components/common/HistoryCard";
 
 import { HISTORIES } from "./data";
 
