@@ -1,8 +1,15 @@
 "use client";
 
+import { useState } from "react";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { PiWarningCircleBold } from "react-icons/pi";
+
+import { formSchema } from "@/app/booking/[id]/schema";
+import { DatePicker } from "@/components/common/DatePicker";
+import { TimePicker } from "@/components/common/TimePicker";
+import { Option, Select } from "@/components/common/Selector";
 
 import {
   Form,
@@ -13,39 +20,15 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { DatePicker } from "@/components/common/DatePicker";
-import { TimePicker } from "@/components/common/TimePicker";
 import { Button } from "../ui/button";
-import { PiWarningCircleBold } from "react-icons/pi";
-import { Option, Select } from "@/components/common/Selector";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  member: z.number().int().min(1, {
-    message: "Member must be at least 1.",
-  }),
-  date: z.date(),
-  time: z.object({
-    hour: z.number().int().min(0).max(23),
-    minute: z.number().int().min(0).max(59),
-  }),
-  detail: z.string().optional(),
-});
 
 interface BookingFormProps {
-  data: {
-    storeId: string;
-  };
+  handleOnSubmit: (values: any) => void;
 }
 
-export const BookingForm: React.FC<BookingFormProps> = ({ data }) => {
-  const router = useRouter();
-
+export const BookingForm: React.FC<BookingFormProps> = ({ handleOnSubmit }) => {
   const [selectedValue, setSelectedValue] = useState<string>("ເບຍລາວ 3 ແກ້ວ");
+  const [member, setMember] = useState<number>(1);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,8 +42,11 @@ export const BookingForm: React.FC<BookingFormProps> = ({ data }) => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    router.push("/booking/done");
+    handleOnSubmit({
+      ...values,
+      money: member * 20000,
+      options: selectedValue,
+    });
   }
   return (
     <Form {...form}>
@@ -91,8 +77,12 @@ export const BookingForm: React.FC<BookingFormProps> = ({ data }) => {
               <FormControl>
                 <Input
                   placeholder=""
-                  {...field}
                   className="h-12 text-base border-[#84746B] !ring-offset-0 !outline-none focus:border-ring focus:!ring-1"
+                  value={field.value}
+                  onChange={(e) => {
+                    setMember(Number(e.target.value));
+                    field.onChange(Number(e.target.value));
+                  }}
                 />
               </FormControl>
               <FormMessage />
@@ -165,7 +155,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ data }) => {
           <div className="w-full flex-between">
             <span className="text-sm text-[#696969]">ເງິນມັດຈຳ:</span>
             <span className="text-base font-bold text-primary">
-              180.000 ກີບ
+              {(member * 20000 || 0).toLocaleString()} ກີບ
             </span>
           </div>
           <Button className="w-full h-12 !bg-secondary shadow-md font-semibold">
