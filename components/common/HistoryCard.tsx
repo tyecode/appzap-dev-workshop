@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { FiChevronRight } from "react-icons/fi";
 
 import { formatDate } from "@/utils/format-date";
 import { HistoryProps } from "@/types/History";
 
-import { HistoryDetailModal } from "./modals/HistoryDetailModal";
+import { HistoryDetailModal } from "@/components/modals/HistoryDetailModal";
 
 export const HistoryCard: React.FC<{ data: HistoryProps }> = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
