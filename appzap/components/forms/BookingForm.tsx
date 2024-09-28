@@ -36,8 +36,16 @@ const formSchema = z.object({
   detail: z.string().optional(),
 });
 
-export const BookingForm: React.FC = ({}) => {
+interface BookingFormProps {
+  storeId: string;
+}
+
+export const BookingForm: React.FC<BookingFormProps> = ({ storeId }) => {
   const router = useRouter();
+
+  const [member, setMember] = useState(1);
+
+  console.log(storeId);
 
   const [selectedValue, setSelectedValue] = useState<string>("ເບຍລາວ 3 ແກ້ວ");
 
@@ -52,9 +60,41 @@ export const BookingForm: React.FC = ({}) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const createBooking = async (
+    data: z.infer<typeof formSchema>,
+    storeId: string,
+    member: number,
+    options: string
+  ) => {
+    try {
+      const res = await fetch("/api", {
+        method: "POST",
+        body: JSON.stringify({
+          name: data.name,
+          amountMember: member,
+          date: data.date,
+          note: data.detail,
+          options,
+          money: member * 50000,
+          storeId,
+        }),
+      });
+
+      if (!res.ok) {
+        console.log("Booking created failed");
+      }
+
+      router.push("/booking/done");
+      return res.json();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    router.push("/booking/done");
+
+    await createBooking(values, storeId, member, selectedValue);
   }
   return (
     <Form {...form}>
@@ -86,6 +126,11 @@ export const BookingForm: React.FC = ({}) => {
                 <Input
                   placeholder=""
                   {...field}
+                  value={field.value}
+                  onChange={(e) => {
+                    field.onChange(Number(e.target.value));
+                    setMember(Number(e.target.value));
+                  }}
                   className="h-12 text-base border-[#84746B] !ring-offset-0 !outline-none focus:border-ring focus:!ring-1"
                 />
               </FormControl>
@@ -159,7 +204,7 @@ export const BookingForm: React.FC = ({}) => {
           <div className="w-full flex-between">
             <span className="text-sm text-[#696969]">ເງິນມັດຈຳ:</span>
             <span className="text-base font-bold text-primary">
-              180.000 ກີບ
+              {member * 50000} ກີບ
             </span>
           </div>
           <Button className="w-full h-12 !bg-secondary shadow-md font-semibold">

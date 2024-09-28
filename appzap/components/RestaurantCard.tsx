@@ -82,7 +82,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
           </div>
           <div className="w-[100px] py-4">
             {data.storeDetails.isOpen ? (
-              <Link href={`/booking/${id}`}>
+              <Link href={`/booking/${data.storeDetails._id}`}>
                 <button className="w-full h-10 border rounded-lg border-primary flex-center text-primary text-base shadow-sm">
                   ຈອງໂຕະ
                 </button>
