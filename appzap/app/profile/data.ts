@@ -1,0 +1,31 @@
+export const HISTORIES = [
+  {
+    id: crypto.randomUUID(),
+    name: "ຮ້ານ ແມ່ຄົວຕຸກກີ້",
+    image: "/appzap-logo.png",
+    totalPeople: 4,
+    price: 180000,
+    status: "DONE",
+    date: Date(),
+    detail: "ຢາກນັ່ງໂຕະໜ້າເວທີ",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "ຮ້ານ ແມ່ຄົວຕຸກກີ້",
+    image: "/appzap-logo.png",
+    totalPeople: 2,
+    price: 70000,
+    status: "DONE",
+    date: Date(),
+    detail: "ຢາກນັ່ງໂຕະໜ້າເວທີ",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "ຮ້ານ ແມ່ຄົວຕຸກກີ້",
+    image: "/appzap-logo.png",
+    totalPeople: 3,
+    price: 200000,
+    status: "DONE",
+    date: Date(),
+  },
+];
